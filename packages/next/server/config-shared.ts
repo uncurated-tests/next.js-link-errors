@@ -81,6 +81,7 @@ export interface NextJsWebpackConfig {
 export interface ExperimentalConfig {
   fetchCache?: boolean
   allowMiddlewareResponseBody?: boolean
+  brokenLinkWebhook?: string
   skipMiddlewareUrlNormalize?: boolean
   skipTrailingSlashRedirect?: boolean
   optimisticClientCache?: boolean
@@ -612,6 +613,7 @@ export const defaultConfig: NextConfig = {
     adjustFontFallbacks: false,
     adjustFontFallbacksWithSizeAdjust: false,
     turbotrace: undefined,
+    brokenLinkWebhook: undefined,
   },
 }
 

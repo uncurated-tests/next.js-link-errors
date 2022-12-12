@@ -18,6 +18,10 @@ import {
 import { useIntersection } from './use-intersection'
 import { getDomainLocale } from './get-domain-locale'
 import { addBasePath } from './add-base-path'
+import {
+  checkExternalLinkHeaders,
+  reportBrokenLink,
+} from './report-broken-link'
 
 type Url = string | UrlObject
 type RequiredKeys<T> = {
@@ -124,6 +128,12 @@ function prefetch(
   }
 
   if (!isLocalURL(href)) {
+    if (
+      process.env.__NEXT_BROKEN_LINK_WEBHOOK &&
+      process.env.NODE_ENV === 'production'
+    ) {
+      void checkExternalLinkHeaders({ href, route: window.location.pathname })
+    }
     return
   }
 
@@ -155,6 +165,9 @@ function prefetch(
   // loading with priority which can reject but we don't
   // want to force navigation since this is only a prefetch
   Promise.resolve(router.prefetch(href, as, options)).catch((err) => {
+    if (process.env.__NEXT_BROKEN_LINK_WEBHOOK) {
+      void reportBrokenLink({ route: window.location.pathname, href })
+    }
     if (process.env.NODE_ENV !== 'production') {
       // rethrow to show invalid URL errors
       throw err

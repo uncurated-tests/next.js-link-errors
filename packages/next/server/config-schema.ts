@@ -243,6 +243,9 @@ const configSchema = {
           },
           type: 'object',
         },
+        brokenLinkWebhook: {
+          type: 'string',
+        },
         cpus: {
           type: 'number',
         },

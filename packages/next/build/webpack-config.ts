@@ -317,6 +317,9 @@ export function getDefineEnv({
     'process.env.__NEXT_WEB_VITALS_ATTRIBUTION': JSON.stringify(
       config.experimental.webVitalsAttribution
     ),
+    'process.env.__NEXT_BROKEN_LINK_WEBHOOK': JSON.stringify(
+      config.experimental.brokenLinkWebhook
+    ),
     ...(isNodeServer || isEdgeServer
       ? {
           // Fix bad-actors in the npm ecosystem (e.g. `node-formidable`)

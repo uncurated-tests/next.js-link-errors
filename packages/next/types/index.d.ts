@@ -20,6 +20,11 @@ import {
   // @ts-ignore This path is generated at build time and conflicts otherwise
 } from '../dist/server/api-utils'
 
+import {
+  BrokenLinkReport,
+  // @ts-ignore This path is generated at build time and conflicts otherwise
+} from '../dist/client/report-broken-link'
+
 // @ts-ignore This path is generated at build time and conflicts otherwise
 import next from '../dist/server/next'
 
@@ -120,6 +125,8 @@ export {
   NextApiRequest,
   NextApiHandler,
 }
+
+export { BrokenLinkReport }
 
 export type PreviewData = string | false | object | undefined
 
