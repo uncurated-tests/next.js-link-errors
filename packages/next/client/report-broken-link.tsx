@@ -34,7 +34,9 @@ export async function reportBrokenLink({ route, href }: BrokenLinkReport) {
           }),
         })
       } catch {
-        console.error('Failed to report broken link')
+        if (process.env.NODE_ENV !== 'production') {
+          console.error(`Failed to report ${href} as a broken link on ${route}`)
+        }
       }
     }
   }
@@ -44,7 +46,12 @@ export async function checkExternalLinkHeaders({
   route,
   href,
 }: BrokenLinkReport) {
-  if (!linkHasBeenCheckedThisSession({ route, href })) {
+  const { protocol } = window.location
+  // don't fetch if the link doesn't match the current page's protocol, which prevents errors in the console
+  if (
+    !linkHasBeenCheckedThisSession({ route, href }) &&
+    route.startsWith(protocol)
+  ) {
     try {
       const res = await fetch(href, { method: 'HEAD' })
       if (res.status >= 400) {
