@@ -45,9 +45,13 @@ export async function checkExternalLinkHeaders({
   href,
 }: BrokenLinkReport) {
   if (!linkHasBeenCheckedThisSession({ route, href })) {
-    const res = await fetch(href, { method: 'HEAD' })
-    if (res.status >= 400) {
-      reportBrokenLink({ route: window.location.pathname, href })
+    try {
+      const res = await fetch(href, { method: 'HEAD' })
+      if (res.status >= 400) {
+        reportBrokenLink({ route: window.location.pathname, href })
+      }
+    } catch {
+      console.error('Failed to check external link headers')
     }
   }
 }
